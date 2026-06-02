@@ -1,3 +1,18 @@
+#file: noinspection YAMLSchemaValidation
 spring:
   application:
     name: mp-study
+  datasource:
+    url: jdbc:mysql://localhost:3306/my-study?useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&serverTimezone=UTC
+    username: root
+    password: 1234
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+logging:
+  level:
+    me.fengqizihang: debug
+  pattern:
+    dateformat: HH:mm:ss
+
+mybatis-plus:
+  mapper-locations: classpath:/mapper/*.xml
