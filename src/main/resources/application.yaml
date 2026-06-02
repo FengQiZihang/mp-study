@@ -15,4 +15,7 @@ logging:
     dateformat: HH:mm:ss
 
 mybatis-plus:
-  mapper-locations: classpath:/mapper/*.xml
+  type-aliases-package: me.fengqizihang.mpstudy.pojo # 扫描实体类所在的包
+  global-config:
+    db-config:
+      id-type: auto # 主键策略，auto表示数据库自增
