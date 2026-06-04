@@ -1,6 +1,7 @@
 package me.fengqizihang.mpstudy.mapper;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import me.fengqizihang.mpstudy.domain.po.User;
 import org.junit.jupiter.api.Test;
@@ -79,5 +80,18 @@ class UserMapperTest {
 
         // 2. 执行更新 (这里传入的 null 代表不使用实体类对象更新, 完全依赖 wrapper 中的 set 条件)
         userMapper.update(null, wrapper);
+    }
+
+    @Test
+    void testCustomSql() {
+        // 1. 准备查询条件
+        List<Long> ids = List.of(1L, 2L, 4L);
+        QueryWrapper<User> wrapper = new QueryWrapper<User>()
+                .in("u.id", ids)
+                .eq("a.city", "Beijing");
+
+        // 2. 调用自定义 SQL 方法
+        List<User> users = userMapper.queryUsersByAddressAndIds(wrapper);
+        users.forEach(System.out::println);
     }
 }
