@@ -1,5 +1,7 @@
 package me.fengqizihang.mpstudy.mapper;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import me.fengqizihang.mpstudy.domain.po.User;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,5 +54,30 @@ class UserMapperTest {
     @Test
     void testDeleteUser() {
         userMapper.deleteById(5L);
+    }
+
+    @Test
+    void testLambdaQuery() {
+        // 需求: 查询名字中包含 "o", 且余额大于等于 1000 的所有用户.
+        // 1. 创建条件构造器
+        LambdaQueryWrapper<User> wrapper = new LambdaQueryWrapper<User>()
+                .like(User::getUsername, "o")
+                .ge(User::getBalance, 1000);
+
+        // 2. 执行查询
+        List<User> users = userMapper.selectList(wrapper);
+        users.forEach(System.out::println);
+    }
+
+    @Test
+    void testLambdaUpdate() {
+        // 需求: 将名字为 "Jack" 的用户, 其余额 (balance) 更新为 2000.
+        // 1. 创建更新构造器
+        LambdaUpdateWrapper<User> wrapper = new LambdaUpdateWrapper<User>()
+                .eq(User::getUsername, "Jack") // WHERE username = 'Jack'
+                .set(User::getBalance, 2000);   // SET balance = 2000
+
+        // 2. 执行更新 (这里传入的 null 代表不使用实体类对象更新, 完全依赖 wrapper 中的 set 条件)
+        userMapper.update(null, wrapper);
     }
 }
