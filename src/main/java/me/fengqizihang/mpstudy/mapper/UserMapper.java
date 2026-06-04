@@ -1,6 +1,7 @@
 package me.fengqizihang.mpstudy.mapper;
 
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
+import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.toolkit.Constants;
 import me.fengqizihang.mpstudy.domain.po.User;
@@ -11,6 +12,10 @@ import java.util.List;
 
 public interface UserMapper extends BaseMapper<User> {
 
-    @Select("SELECT u.* FROM user u INNER JOIN address a ON u.id = a.user_id ${ew.customSqlSegment}")
-    List<User> queryUsersByAddressAndIds(@Param(Constants.WRAPPER) Wrapper<User> wrapper);
+    // 显式接收 city 参数, 并用 #{city} 绑定
+    @Select("SELECT u.* FROM user u INNER JOIN address a ON u.id = a.user_id AND a.city = #{city} ${ew.customSqlSegment}")
+    List<User> queryUsersByCityAndIds(@Param("city") String city, @Param(Constants.WRAPPER) Wrapper<User> wrapper);
+
+
+    void updateBalanceByIds(@Param(Constants.WRAPPER) LambdaUpdateWrapper<User> wrapper, @Param("amount") int amount);
 }

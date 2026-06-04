@@ -1,9 +1,9 @@
-DROP DATABASE IF EXISTS `my-study`;
-CREATE DATABASE `my-study`
+DROP DATABASE IF EXISTS `mp-study`;
+CREATE DATABASE `mp-study`
   DEFAULT CHARACTER SET utf8mb4
   COLLATE utf8mb4_general_ci;
 
-USE `my-study`;
+USE `mp-study`;
 
 CREATE TABLE `address` (
   `id` BIGINT NOT NULL AUTO_INCREMENT,

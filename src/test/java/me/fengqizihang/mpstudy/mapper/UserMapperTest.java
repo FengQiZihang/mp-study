@@ -84,14 +84,32 @@ class UserMapperTest {
 
     @Test
     void testCustomSql() {
+        // 需求:查询出所有收货地址在北京的并且用户id在指定范围的用户(例如1、2、4)的用户
         // 1. 准备查询条件
         List<Long> ids = List.of(1L, 2L, 4L);
-        QueryWrapper<User> wrapper = new QueryWrapper<User>()
-                .in("u.id", ids)
-                .eq("a.city", "Beijing");
+        String city = "Beijing";
 
-        // 2. 调用自定义 SQL 方法
-        List<User> users = userMapper.queryUsersByAddressAndIds(wrapper);
+        // 2. 准备查询条件
+        QueryWrapper<User> wrapper = new QueryWrapper<User>()
+                .in("u.id", ids);
+
+        // 3. 调用自定义 SQL方法
+        List<User> users = userMapper.queryUsersByCityAndIds(city, wrapper);
         users.forEach(System.out::println);
+    }
+
+    @Test
+    void testCustomUpdate() {
+        // 需求:将id在指定范围的用户(例如1、2、4)的余额扣减指定值
+        // 1. 准备更新条件
+        List<Long> ids = List.of(1L, 2L, 4L);
+        int amount = 200;
+
+        // 2. 准备查询条件
+        LambdaUpdateWrapper<User> wrapper = new LambdaUpdateWrapper<User>()
+                .in(User::getId, ids);
+
+        // 3. 调用自定义 SQL方法
+        userMapper.updateBalanceByIds(wrapper, amount);
     }
 }
