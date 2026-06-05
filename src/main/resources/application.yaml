@@ -19,3 +19,33 @@ mybatis-plus:
   global-config:
     db-config:
       id-type: auto # 主键策略，auto表示数据库自增
+
+# Springdoc OpenAPI 3 配置
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+    tags-sorter: alpha
+    operations-sorter: order
+  api-docs:
+    path: /v3/api-docs
+  group-configs:
+    - group: default
+      paths-to-match: /**
+      packages-to-scan: me.fengqizihang.mpstudy.controller
+
+# Knife4j 增强与基础信息配置
+knife4j:
+  enable: true
+  openapi:
+    title: MyBatis-Plus系统学习接口文档
+    description: "MyBatis-Plus系统学习与测试接口文档"
+    email: fengqizihang@example.com
+    concat: 风启自航
+    url: https://github.com/FengQiZihang/mp-study
+    version: v1.0.0
+    group:
+      default:
+        group-name: default
+        api-rule: package
+        api-rule-resources:
+          - me.fengqizihang.mpstudy.controller
